@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Analysis Results</h2>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+                <i class="fas fa-upload me-2"></i>New Analysis
+            </a>
+        </div>
+
+        {% if analysis %}
+        <!-- Summary Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <h3>{{ analysis.summary.positive_percentage }}%</h3>
+                        <p class="mb-0">Positive Reviews</p>
+                        <small>{{ analysis.summary.total_positive }} reviews</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <h3>{{ analysis.summary.negative_percentage }}%</h3>
+                        <p class="mb-0">Negative Reviews</p>
+                        <small>{{ analysis.summary.total_negative }} reviews</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body text-center">
+                        <h3>{{ analysis.summary.neutral_percentage }}%</h3>
+                        <p class="mb-0">Neutral Reviews</p>
+                        <small>{{ analysis.summary.total_neutral }} reviews</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Themes -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-heart me-2"></i>What Customers Love</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if analysis.positive_themes %}
+                            <ul class="list-group list-group-flush">
+                                {% for theme, count in analysis.positive_themes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ theme|title }}
+                                    <span class="badge bg-success rounded-pill">{{ count }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No positive themes identified</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Common Complaints</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if analysis.negative_themes %}
+                            <ul class="list-group list-group-flush">
+                                {% for theme, count in analysis.negative_themes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ theme|title }}
+                                    <span class="badge bg-danger rounded-pill">{{ count }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No negative themes identified</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Suggestions -->
+        {% if analysis.negative_reviews %}
+        <div class="card mt-4">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-reply me-2"></i>AI Response Suggestions</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-warning mb-3" id="generateResponsesBtn">
+                    <i class="fas fa-robot me-2"></i>Generate Response Suggestions
+                </button>
+                <div id="responseSuggestions"></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Raw Reviews -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Sample Positive Reviews</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for review in analysis.positive_reviews %}
+                        <div class="border-start border-success border-4 ps-3 mb-3">
+                            <p class="mb-1">{{ review.text }}</p>
+                            <small class="text-muted">Sentiment: {{ "%.2f"|format(review.sentiment) }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Sample Negative Reviews</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for review in analysis.negative_reviews %}
+                        <div class="border-start border-danger border-4 ps-3 mb-3">
+                            <p class="mb-1">{{ review.text }}</p>
+                            <small class="text-muted">Sentiment: {{ "%.2f"|format(review.sentiment) }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="alert alert-warning text-center">
+            <h4>No analysis data found</h4>
+            <p>Please upload and analyze some feedback first.</p>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Upload Feedback</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

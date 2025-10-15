@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Understand Your Customers in 60 Seconds</h1>
+            <p class="lead">Upload your reviews and get instant insights about what customers love and complain about.</p>
+        </div>
+
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-upload fa-3x text-primary mb-3"></i>
+                    <h3>Upload Your Customer Feedback</h3>
+                    <p class="text-muted">Supported formats: CSV or TXT files</p>
+                </div>
+
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="file" class="form-control" id="fileInput" name="file" accept=".csv,.txt" required>
+                        <div class="form-text">One review per line in TXT files, or single column CSV files</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="analysisType" class="form-label">Analysis Type</label>
+                        <select class="form-select" id="analysisType" name="analysis_type">
+                            <option value="basic">Basic Analysis</option>
+                            <option value="detailed">Detailed Analysis</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100" id="analyzeBtn">
+                        <i class="fas fa-chart-line me-2"></i>Analyze Feedback
+                    </button>
+                </form>
+
+                <div id="loading" class="text-center mt-3" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Analyzing...</span>
+                    </div>
+                    <p class="mt-2">Analyzing your feedback... This may take a minute.</p>
+                </div>
+
+                <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-bolt fa-2x text-warning mb-2"></i>
+                    <h5>Fast Analysis</h5>
+                    <p class="text-muted">Get insights in under 60 seconds</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-chart-pie fa-2x text-success mb-2"></i>
+                    <h5>Clear Insights</h5>
+                    <p class="text-muted">Understand complaints and praises</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-robot fa-2x text-info mb-2"></i>
+                    <h5>AI Responses</h5>
+                    <p class="text-muted">Get suggested responses to negative reviews</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

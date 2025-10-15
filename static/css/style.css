@@ -1,0 +1,43 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.btn-primary {
+    border-radius: 10px;
+    padding: 12px 30px;
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    padding: 12px 15px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.analysis-card {
+    transition: transform 0.2s;
+}
+
+.analysis-card:hover {
+    transform: translateY(-5px);
+}
+
+.border-success {
+    border-color: #198754 !important;
+}
+
+.border-danger {
+    border-color: #dc3545 !important;
+}
+
+.border-warning {
+    border-color: #ffc107 !important;
+}
